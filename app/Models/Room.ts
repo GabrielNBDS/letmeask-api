@@ -16,6 +16,9 @@ export default class Room extends BaseModel {
   })
   public slug: string
 
+  @column()
+  public isOpen: boolean
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
