@@ -7,12 +7,12 @@ export default class Room extends BaseModel {
   public id: number
 
   @column()
-  public title: string
+  public name: string
 
   @column()
   @slugify({
     strategy: 'shortId',
-    fields: ['title'],
+    fields: ['name'],
   })
   public slug: string
 

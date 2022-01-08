@@ -5,11 +5,11 @@ export default class CreateRoomValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    title: schema.string({ trim: true }, [rules.minLength(4)]),
+    name: schema.string({ trim: true }, [rules.minLength(4)]),
   })
 
   public messages = {
-    'title.minLength': 'O "título" deve conter no mínimo 4 caracteres',
-    'title.required': 'O "título" não pode estar em branco',
+    'name.minLength': 'O campo "nome" deve conter no mínimo 4 caracteres',
+    'name.required': 'O campo "nome" não pode estar em branco',
   }
 }

@@ -4,9 +4,9 @@ import CreateRoomValidator from 'App/Validators/Rooms/CreateRoomValidator'
 
 export default class RoomsController {
   public async store({ request }: HttpContextContract) {
-    const { title } = await request.validate(CreateRoomValidator)
+    const { name } = await request.validate(CreateRoomValidator)
 
-    const room = await CreateRoomService.execute(title)
+    const room = await CreateRoomService.execute(name)
 
     return room
   }
