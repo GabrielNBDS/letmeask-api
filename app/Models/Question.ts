@@ -20,6 +20,9 @@ export default class Question extends BaseModel {
   public isAnswered: boolean
 
   @column()
+  public likes: number
+
+  @column()
   public roomId: number
 
   @belongsTo(() => Room)
