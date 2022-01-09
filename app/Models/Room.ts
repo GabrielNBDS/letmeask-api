@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import { slugify } from '@ioc:Adonis/Addons/LucidSlugify'
+import Question from './Question'
 
 export default class Room extends BaseModel {
   @column({ isPrimary: true })
@@ -18,6 +19,9 @@ export default class Room extends BaseModel {
 
   @column()
   public isOpen: boolean
+
+  @hasMany(() => Question)
+  public questions: HasMany<typeof Question>
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
