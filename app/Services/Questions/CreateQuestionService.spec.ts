@@ -29,4 +29,12 @@ test.group('CreateQuestionService', (group) => {
 
     assert.equal(question.truncated.length, 180)
   })
+
+  test('Initial likes value is equal to 0', async (assert) => {
+    const room = await RoomFactory.create()
+
+    const question = await CreateQuestionService.execute(room.slug, faker.lorem.words(100))
+
+    assert.equal(question.likes, 0)
+  })
 })
