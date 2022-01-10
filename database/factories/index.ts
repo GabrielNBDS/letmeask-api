@@ -5,6 +5,7 @@ import Question from 'App/Models/Question'
 export const QuestionFactory = Factory.define(Question, ({ faker }) => {
   return {
     content: faker.lorem.words(100),
+    likes: 0,
   }
 }).build()
 
