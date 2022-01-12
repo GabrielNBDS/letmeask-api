@@ -1,0 +1,10 @@
+{
+  "all": false,
+  "include": [
+    "app/Services/**/*.ts"
+  ],
+  "exclude": [
+    "app/Services/**/*.spec.ts"
+  ]
+
+}
