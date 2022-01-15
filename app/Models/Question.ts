@@ -2,6 +2,7 @@ import { DateTime } from 'luxon'
 import { BaseModel, beforeCreate, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
 import { string } from '@poppinss/utils/build/helpers'
 import Room from './Room'
+import User from './User'
 
 export default class Question extends BaseModel {
   @column({ isPrimary: true })
@@ -27,6 +28,12 @@ export default class Question extends BaseModel {
 
   @belongsTo(() => Room)
   public room: BelongsTo<typeof Room>
+
+  @column()
+  public userId: number
+
+  @belongsTo(() => User)
+  public user: BelongsTo<typeof User>
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
