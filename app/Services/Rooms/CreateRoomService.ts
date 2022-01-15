@@ -1,13 +1,8 @@
-import Room from 'App/Models/Room'
+import User from 'App/Models/User'
 
 class CreateRoomService {
-  public static async execute(name: string) {
-    const room = new Room()
-
-    room.name = name
-    room.isOpen = true
-
-    await room.save()
+  public static async execute(name: string, user: User) {
+    const room = await user.related('rooms').create({ name, isOpen: true })
 
     return room
   }
