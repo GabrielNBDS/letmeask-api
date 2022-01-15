@@ -1,9 +1,7 @@
 import Room from 'App/Models/Room'
 
 class CloseRoomService {
-  public static async execute(id: number) {
-    const room = await Room.findOrFail(id)
-
+  public static async execute(room: Room) {
     room.isOpen = false
 
     await room.save()

@@ -15,7 +15,7 @@ test.group('CloseRoomService', (group) => {
   test('Close room', async (assert) => {
     const room = await RoomFactory.create()
 
-    const closedRoom = await CloseRoomService.execute(room.id)
+    const closedRoom = await CloseRoomService.execute(room)
 
     assert.isFalse(closedRoom.isOpen)
   })
