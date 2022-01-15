@@ -17,7 +17,7 @@ test.group('LikeQuestionService', (group) => {
 
     const [question] = room.questions
 
-    const likedQuestion = await LikeQuestionService.execute(question.id)
+    const likedQuestion = await LikeQuestionService.execute(question)
 
     assert.equal(likedQuestion.id, 1)
   })
