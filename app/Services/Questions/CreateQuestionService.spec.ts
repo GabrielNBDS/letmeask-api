@@ -1,6 +1,6 @@
 import Database from '@ioc:Adonis/Lucid/Database'
 import Question from 'App/Models/Question'
-import { RoomFactory } from 'Database/factories'
+import { UserFactory } from 'Database/factories'
 import test from 'japa'
 import CreateQuestionService from './CreateQuestionService'
 import faker from 'faker'
@@ -16,37 +16,51 @@ test.group('CreateQuestionService', (group) => {
   })
 
   test('Create Question', async (assert) => {
-    const room = await RoomFactory.create()
+    const user = await UserFactory.with('rooms', 1).create()
 
-    const question = await CreateQuestionService.execute(room.slug, faker.lorem.words(100))
+    const question = await CreateQuestionService.execute(
+      user.rooms[0],
+      user,
+      faker.lorem.words(100)
+    )
 
     assert.instanceOf(question, Question)
   })
 
   test('Truncate content', async (assert) => {
-    const room = await RoomFactory.create()
+    const user = await UserFactory.with('rooms', 1).create()
 
-    const question = await CreateQuestionService.execute(room.slug, faker.lorem.words(100))
+    const question = await CreateQuestionService.execute(
+      user.rooms[0],
+      user,
+      faker.lorem.words(100)
+    )
 
     assert.equal(question.truncated.length, 180)
   })
 
   test('Initial likes value is equal to 0', async (assert) => {
-    const room = await RoomFactory.create()
+    const user = await UserFactory.with('rooms', 1).create()
 
-    const question = await CreateQuestionService.execute(room.slug, faker.lorem.words(100))
+    const question = await CreateQuestionService.execute(
+      user.rooms[0],
+      user,
+      faker.lorem.words(100)
+    )
 
     assert.equal(question.likes, 0)
   })
 
   test("Can't add question to closed room", async (assert) => {
-    const room = await RoomFactory.create()
+    assert.plan(2) // asserts that catch block is executed
 
-    room.isOpen = false
-    await room.save()
+    const user = await UserFactory.with('rooms', 1).create()
+
+    user.rooms[0].isOpen = false
+    await user.rooms[0].save()
 
     try {
-      await CreateQuestionService.execute(room.slug, faker.lorem.words(100))
+      await CreateQuestionService.execute(user.rooms[0], user, faker.lorem.words(100))
     } catch (error) {
       assert.instanceOf(error, CustomError)
       assert.equal(error.message, 'Room is closed')
