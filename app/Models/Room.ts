@@ -1,7 +1,8 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, belongsTo, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import { slugify } from '@ioc:Adonis/Addons/LucidSlugify'
 import Question from './Question'
+import User from './User'
 
 export default class Room extends BaseModel {
   @column({ isPrimary: true })
@@ -19,6 +20,12 @@ export default class Room extends BaseModel {
 
   @column()
   public isOpen: boolean
+
+  @column()
+  public ownerId: number
+
+  @belongsTo(() => User)
+  public owner: BelongsTo<typeof User>
 
   @hasMany(() => Question)
   public questions: HasMany<typeof Question>

@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon'
-import { column, BaseModel } from '@ioc:Adonis/Lucid/Orm'
+import { column, BaseModel, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
+import Room from './Room'
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -16,6 +17,9 @@ export default class User extends BaseModel {
 
   @column()
   public email: string
+
+  @hasMany(() => Room, { foreignKey: 'ownerId' })
+  public rooms: HasMany<typeof Room>
 
   @column({ serializeAs: null })
   public accessToken?: string
