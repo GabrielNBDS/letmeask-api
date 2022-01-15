@@ -26,7 +26,7 @@ export default class Question extends BaseModel {
   public roomId: number
 
   @belongsTo(() => Room)
-  public user: BelongsTo<typeof Room>
+  public room: BelongsTo<typeof Room>
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
