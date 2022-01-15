@@ -11,7 +11,9 @@ export const UserFactory = Factory.define(User, ({ faker }) => {
     email: faker.internet.email(),
     avatar: faker.internet.avatar(),
   }
-}).build()
+})
+  .relation('rooms', () => RoomFactory)
+  .build()
 
 export const QuestionFactory = Factory.define(Question, ({ faker }) => {
   return {
