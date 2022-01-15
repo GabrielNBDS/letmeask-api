@@ -15,7 +15,7 @@ test.group('SetQuestionAsAnsweredService', (group) => {
   test('Set question as answered', async (assert) => {
     const room = await RoomFactory.with('questions', 1).create()
 
-    const answeredQuestion = await SetQuestionAsAnsweredService.execute(room.questions[0].id)
+    const answeredQuestion = await SetQuestionAsAnsweredService.execute(room.questions[0])
 
     assert.isTrue(answeredQuestion.isAnswered)
   })
