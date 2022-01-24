@@ -1,5 +1,5 @@
 import Database from '@ioc:Adonis/Lucid/Database'
-import { RoomFactory } from 'Database/factories'
+import { QuestionFactory, RoomFactory, UserFactory } from 'Database/factories'
 import test from 'japa'
 import IndexQuestionsService from './IndexQuestionsService'
 
@@ -13,24 +13,35 @@ test.group('IndexQuestionsService', (group) => {
   })
 
   test('Index questions', async (assert) => {
-    const room = await RoomFactory.with('questions', 5).create()
+    const user = await UserFactory.create()
+    const room = await RoomFactory.create()
+    const question = await QuestionFactory.create()
+
+    await question.related('user').associate(user)
+    await question.related('room').associate(room)
 
     const { data: questions } = await IndexQuestionsService.execute(room.slug)
 
-    assert.hasAllKeys(questions[0], ['id', 'truncated'])
+    assert.hasAllKeys(questions[0], ['id', 'truncated', 'userId', 'user'])
   })
 
   test('Index answered questions', async (assert) => {
-    const room = await RoomFactory.with('questions', 5).create()
+    const user = await UserFactory.create()
+    const room = await RoomFactory.create()
+    const question = await QuestionFactory.create()
 
-    room.questions[0].isAnswered = true
-    await room.questions[0].save()
+    await question.related('user').associate(user)
+    await question.related('room').associate(room)
+
+    question.isAnswered = true
+    await question.save()
 
     const { data } = await IndexQuestionsService.execute(room.slug, true)
 
-    const [question] = data
+    const [foundQuestion] = data
 
-    assert.hasAllKeys(question, ['id', 'truncated'])
-    assert.equal(question.id, room.questions[0].id)
+    assert.hasAllKeys(foundQuestion, ['id', 'truncated', 'user', 'userId'])
+    assert.equal(foundQuestion.id, question.id)
+    assert.equal(foundQuestion.user.id, user.id)
   })
 })
